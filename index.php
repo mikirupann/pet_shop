@@ -7,9 +7,11 @@ $dbh = connect_db();
 
 // SQL文の組み立て
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $keyword = $_GET['keyword'];
+    $keyword = h($_GET['keyword']);
     $sql = "SELECT * FROM animals WHERE description LIKE '%{$keyword}%'";
 }
+
+
 
 // プリペアドステートメントの準備
 // $dbh->query($sql) でも良い
