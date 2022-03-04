@@ -6,7 +6,12 @@ require_once __DIR__ . '/functions.php';
 $dbh = connect_db();
 
 // SQL文の組み立て
-$sql = 'SELECT * FROM animals';
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $keyword = h($_GET['keyword']);
+    $sql = "SELECT * FROM animals WHERE description LIKE '%{$keyword}%'";
+}
+
+
 
 // プリペアドステートメントの準備
 // $dbh->query($sql) でも良い
@@ -17,6 +22,7 @@ $stmt->execute();
 
 // 結果の受け取り
 $animals = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 ?>
 <!DOCTYPE html>
@@ -31,6 +37,10 @@ $animals = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <body>
     <h2>本日のご紹介ペット!</h2>
+    <form action="" method="get">
+        キーワード<input type="text" name="keyword">
+        <input type="submit" value="送信">
+    </form>
     <?php foreach ($animals as $animal) : ?>
         <p><?= h($animal['type']) ?>の<?= h($animal['classification']) ?>ちゃん<br><?= h($animal['description']) ?><br><?= h($animal['birthday']) ?><br>出身地:<?= h($animal['birthplace']) ?></p>
         <hr>
