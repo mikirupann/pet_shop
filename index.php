@@ -18,9 +18,6 @@ $stmt->execute();
 // 結果の受け取り
 $animals = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-foreach ($animals as $animal) {
-    var_dump($animal);
-}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
